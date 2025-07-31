@@ -16,8 +16,17 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+
+from flashcards_builder_app.views import FlashcardView, QueryView
+
+
+router = DefaultRouter(trailing_slash=False)
+router.register("flashcards", FlashcardView, basename="flashcards")
+router.register("queries", QueryView, basename="queries")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("", include(router.urls)),
 ]

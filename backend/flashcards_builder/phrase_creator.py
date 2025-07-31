@@ -89,9 +89,14 @@ async def create_phrases_from_query(query: str, num_websites: int):
     return phrases
 
 
-async def create_phrases(keyword: str, num_websites: int = 10):
+async def create_queries(keyword: str, num_websites: int = 10):
     queries_response = await query_llm(keyword)
     queries = queries_response.items
+    return queries
+
+
+async def create_phrases(keyword: str, num_websites: int = 10):
+    queries = await create_queries(keyword, num_websites)
     phrases_list = await asyncio.gather(*[
         create_phrases_from_query(query, num_websites=num_websites) for query in queries
     ])
