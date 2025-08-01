@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Flashcard, Query, WebsiteModel
+
+
+admin.site.register(Flashcard)
+admin.site.register(Query)
+admin.site.register(WebsiteModel)
