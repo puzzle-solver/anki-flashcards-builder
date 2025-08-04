@@ -2,3 +2,6 @@ import os
 
 
 TOKEN_LIMIT = os.getenv("TOKEN_LIMIT", 8_000)
+HTTPX_TIMEOUT = os.getenv("HTTPX_TIMEOUT", 10)
+LLM_TIMEOUT = os.getenv("LLM_TIMEOUT", 30)
+MAX_CONCURRENCY = 10
