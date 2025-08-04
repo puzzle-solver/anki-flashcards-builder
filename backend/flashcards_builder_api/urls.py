@@ -19,12 +19,13 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
-from flashcards_builder_app.views import FlashcardView, QueryView
+from flashcards_builder_app.views import FlashcardView, QueryView, WebsiteView
 
 
 router = DefaultRouter(trailing_slash=False)
-router.register("flashcards", FlashcardView, basename="flashcards")
 router.register("queries", QueryView, basename="queries")
+router.register("websites", WebsiteView, basename="websites")
+router.register("flashcards", FlashcardView, basename="flashcards")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
