@@ -17,7 +17,6 @@ from .serializers import FlashcardSerializer, QuerySerializer, WebsiteSerializer
 
 
 logger = logging.getLogger(__name__)
-logger.info("Hello Przemek")
 
 
 class QueryViewInput(BaseModel):
@@ -34,9 +33,11 @@ class QueryView(viewsets.ModelViewSet):
         serializer = QueryViewInputSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         keywords = serializer.data["keywords"]
+        logger.info("Started creating queries...")
         queries_texts = await asyncio.gather(
             *[create_queries(keyword) for keyword in keywords]
         )
+        logger.info("Finished creating queries")
         queries = [
             Query(keyword=keyword, text=text)
             for keyword, query_data in zip(keywords, queries_texts)
@@ -63,9 +64,12 @@ class WebsiteView(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         keywords = serializer.data["keywords"]
         queries = [query for keyword in keywords async for query in Query.objects.filter(keyword=keyword)]
+        logger.info(f"Found {len(queries)} queries")
+        logger.info("Started extracting websites...")
         websites_list = await asyncio.gather(
             *[extract_websites_from_query(query, num_websites=serializer.data["num_websites"]) for query in queries]
         )
+        logger.info("Done extracting websites")
         websites_objects = [
             WebsiteModel(url=website.url, text=website.text, query=query.text, keyword=query.keyword)
             for query, websites in zip(queries, websites_list)
@@ -93,9 +97,11 @@ class FlashcardView(viewsets.ModelViewSet):
         websites_objects = [website for keyword in keywords async for website in WebsiteModel.objects.filter(keyword=keyword)]
         websites = [Website(url=website.url, text=website.text) for website in websites_objects]
         logger.info(f"Found {len(websites)} websites")
+        logger.info("Started creating phrases...")
         phrases_list = await asyncio.gather(*[
             create_phrases_from_website(website) for website in websites
         ])
+        logger.info("Finished creating phrases")
         flashcards = list()
         for website, phrases in zip(websites_objects, phrases_list):
             for phrase in phrases:
