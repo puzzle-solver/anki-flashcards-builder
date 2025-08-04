@@ -33,7 +33,7 @@ phrase_llm = LLM(
     "You are a tutor for an Italian language. "
     "Given a text, return a list of at most 20 useful phrases for a language learner. "
     "Phrases should be short, no more than a 10 words. "
-    "Only extract phrases in Italian. If there are None, return an empty list.",
+    "Only extract phrases in Italian. If there are None, return an empty list."
     "Return exact phrases from the text, without any modifications (including punctuation)",
     response_format=ListResponseModel,
 )
