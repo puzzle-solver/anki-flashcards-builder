@@ -14,8 +14,8 @@ from dataclasses import dataclass
 
 import googlesearch
 
-from src.llm import LLM, ListResponseModel
-from src.web_scraping import parse_url, Website
+from flashcards_builder.llm import LLM, ListResponseModel
+from flashcards_builder.web_scraping import parse_url, Website
 
 query_llm = LLM(
     "Given a keyword provided by a user, please provide 10 queries to a Google search engine about that "

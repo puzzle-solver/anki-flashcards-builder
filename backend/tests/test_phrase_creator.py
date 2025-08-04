@@ -1,6 +1,6 @@
 import pytest
 
-from src.phrase_creator import translator_llm, tutor_llm
+from flashcards_builder.phrase_creator import translator_llm, tutor_llm
 
 
 @pytest.mark.asyncio

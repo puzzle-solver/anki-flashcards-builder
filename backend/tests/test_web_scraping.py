@@ -1,6 +1,6 @@
 import pytest
 
-from src.web_scraping import parse_url
+from flashcards_builder.web_scraping import parse_url
 
 
 @pytest.mark.asyncio

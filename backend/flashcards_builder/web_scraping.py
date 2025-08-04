@@ -4,7 +4,6 @@ Code for scraping URLs.
 import logging
 from dataclasses import dataclass
 
-import googlesearch
 import httpx
 from bs4 import BeautifulSoup
 

@@ -4,8 +4,8 @@ Code for interacting with LLMs.
 from openai import AsyncOpenAI
 from pydantic import BaseModel
 
-from src.settings import TOKEN_LIMIT
-from src.tokens import truncate_text
+from flashcards_builder.settings import TOKEN_LIMIT
+from flashcards_builder.tokens import truncate_text
 
 
 class LLM:
