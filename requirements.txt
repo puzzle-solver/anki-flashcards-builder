@@ -1,5 +1,8 @@
 openai
 googlesearch-python
-requests
+httpx
 beautifulsoup4
+tiktoken
 
+pytest
+pytest-asyncio
