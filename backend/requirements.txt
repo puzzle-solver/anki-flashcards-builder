@@ -7,7 +7,6 @@ tiktoken
 django
 django_filter
 rest_framework
-pydantic
 
 pytest
 pytest-asyncio
