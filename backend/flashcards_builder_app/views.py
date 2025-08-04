@@ -2,8 +2,6 @@ import asyncio
 import logging
 
 from asgiref.sync import async_to_sync
-from django.http import HttpResponseBadRequest
-from pydantic import BaseModel, ValidationError
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 
@@ -17,10 +15,6 @@ from .serializers import FlashcardSerializer, QuerySerializer, WebsiteSerializer
 
 
 logger = logging.getLogger(__name__)
-
-
-class QueryViewInput(BaseModel):
-    keywords: list[str]
 
 
 class QueryView(viewsets.ModelViewSet):
@@ -48,11 +42,6 @@ class QueryView(viewsets.ModelViewSet):
         return Response(items, status=status.HTTP_201_CREATED)
 
 
-class WebsiteViewInput(BaseModel):
-    keywords: list[str]
-    num_websites: int = 10
-
-
 class WebsiteView(viewsets.ModelViewSet):
     queryset = WebsiteModel.objects.all()
     serializer_class = WebsiteSerializer
@@ -78,11 +67,6 @@ class WebsiteView(viewsets.ModelViewSet):
         await WebsiteModel.objects.abulk_create(websites_objects)
         items = WebsiteSerializer(websites_objects, many=True).data
         return Response(items, status=status.HTTP_201_CREATED)
-
-
-class FlashcardViewInput(BaseModel):
-    keywords: list[str]
-    target_front: bool = False
 
 
 class FlashcardView(viewsets.ModelViewSet):
