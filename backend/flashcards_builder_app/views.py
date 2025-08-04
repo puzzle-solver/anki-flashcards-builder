@@ -13,7 +13,7 @@ from flashcards_builder.phrase_creator import (
 )
 from flashcards_builder.web_scraping import Website
 from .models import Flashcard, Query, WebsiteModel
-from .serializers import FlashcardSerializer, QuerySerializer, WebsiteSerializer
+from .serializers import FlashcardSerializer, QuerySerializer, WebsiteSerializer, QueryViewInputSerializer, WebsiteViewInputSerializer, FlashcardViewInputSerializer
 
 
 logger = logging.getLogger(__name__)
@@ -31,11 +31,9 @@ class QueryView(viewsets.ModelViewSet):
 
     @async_to_sync
     async def create(self, request, *args, **kwargs):
-        try:
-            input_data = QueryViewInput(**request.data)
-        except ValidationError as e:
-            return HttpResponseBadRequest(content=f"Invalid request: {e.errors()}")
-        keywords = input_data.keywords
+        serializer = QueryViewInputSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        keywords = serializer.data["keywords"]
         queries_texts = await asyncio.gather(
             *[create_queries(keyword) for keyword in keywords]
         )
@@ -61,14 +59,12 @@ class WebsiteView(viewsets.ModelViewSet):
 
     @async_to_sync
     async def create(self, request, *args, **kwargs):
-        try:
-            input_data = WebsiteViewInput(**request.data)
-        except ValidationError as e:
-            return HttpResponseBadRequest(content=f"Invalid request: {e.errors()}")
-        keywords = input_data.keywords
+        serializer = WebsiteViewInputSerializer(request.data)
+        serializer.is_valid(raise_exception=True)
+        keywords = serializer.data["keywords"]
         queries = [query for keyword in keywords async for query in Query.objects.filter(keyword=keyword)]
         websites_list = await asyncio.gather(
-            *[extract_websites_from_query(query, num_websites=input_data.num_websites) for query in queries]
+            *[extract_websites_from_query(query, num_websites=serializer.data["num_websites"]) for query in queries]
         )
         websites_objects = [
             WebsiteModel(url=website.url, text=website.text, query=query.text, keyword=query.keyword)
@@ -91,11 +87,9 @@ class FlashcardView(viewsets.ModelViewSet):
 
     @async_to_sync
     async def create(self, request, *args, **kwargs):
-        try:
-            input_data = FlashcardViewInput(**request.data)
-        except ValidationError as e:
-            return HttpResponseBadRequest(content=f"Invalid request: {e.errors()}")
-        keywords = input_data.keywords
+        serializer = FlashcardViewInputSerializer(request.data)
+        serializer.is_valid(raise_exception=True)
+        keywords = serializer.data["keywords"]
         websites_objects = [website for keyword in keywords async for website in WebsiteModel.objects.filter(keyword=keyword)]
         websites = [Website(url=website.url, text=website.text) for website in websites_objects]
         logger.info(f"Found {len(websites)} websites")
@@ -105,7 +99,7 @@ class FlashcardView(viewsets.ModelViewSet):
         flashcards = list()
         for website, phrases in zip(websites_objects, phrases_list):
             for phrase in phrases:
-                front, back = (phrase.phrase, phrase.translation) if input_data.target_front else (phrase.translation, phrase.phrase)
+                front, back = (phrase.phrase, phrase.translation) if serializer.data["target_front"] else (phrase.translation, phrase.phrase)
                 flashcard = Flashcard(
                     front=front, back=f"{back} \n\n Explanation:\n{phrase.explanation}", keyword=website.keyword, url=website.url,
                 )
