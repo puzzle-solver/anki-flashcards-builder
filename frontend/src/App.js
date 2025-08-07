@@ -1,18 +1,13 @@
-import "./App.css"
+import Grid from "@mui/material/Grid";
+import { useState } from 'react';
 import QuerySection from "./components/QuerySection"
+import WebsiteSection from "./components/WebsiteSection";
+import "./App.css"
 
-
-function WebsiteSection() {
-    return (
-    <div className="section section-middle">
-      Websites
-    </div>
-    )
-}
 
 function PhrasesSection() {
   return (
-    <div className="section section-middle">
+    <div className="section">
       Phrases
     </div>
   )
@@ -20,12 +15,13 @@ function PhrasesSection() {
 
 
 function App() {
+  const [queries, setQueries] = useState([]);
   return (
-  <div className="app-container"> 
-    <QuerySection />
-    <WebsiteSection />
+  <Grid className="app-container"> 
+    <QuerySection queries={queries} setQueries={setQueries} />
+    <WebsiteSection queries={queries} />
     <PhrasesSection />
-  </div>
+  </Grid>
   );
 };
 
