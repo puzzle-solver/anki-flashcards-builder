@@ -94,8 +94,8 @@ export default function QuerySection() {
   ]
   const paginationModel = { page: 0, pageSize: 10 };
   return (
-    <div className="section section-left rounded-t-lg">
-      <h2 className="title text-blue-600">
+    <div className="section">
+      <h2 className="title">
         Step 1: Provide a set of queries
       </h2>
       <p className="subtitle">
