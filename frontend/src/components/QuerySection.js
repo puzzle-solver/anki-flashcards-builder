@@ -60,19 +60,19 @@ function TextInput( { keywords, setKeywords }) {
 
       {keywords.length > 0 && (
         <Box>
-          {keywords.map((value, index) => (
-            <List>
-            <ListItem
-                  secondaryAction={
-                    <IconButton edge="end" aria-label="delete" onClick={() => deleteItem(index)}>
-                      <DeleteIcon/>
-                    </IconButton>
-                  }
-            >
-            <ListItemText primary={value}/>
-            </ListItem>
-            </List>
-          ))}
+          <List>
+            {keywords.map((value, index) => (
+              <ListItem
+                    secondaryAction={
+                      <IconButton edge="end" aria-label="delete" onClick={() => deleteItem(index)}>
+                        <DeleteIcon/>
+                      </IconButton>
+                    }
+              >
+              <ListItemText primary={value}/>
+              </ListItem>
+            ))}
+          </List>
         </Box>
       )}
     </Box>
