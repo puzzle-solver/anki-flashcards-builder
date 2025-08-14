@@ -17,11 +17,11 @@ function PhrasesSection() {
 function App() {
   const [queries, setQueries] = useState([]);
   return (
-  <Grid className="app-container"> 
+  <div className="app-container"> 
     <QuerySection queries={queries} setQueries={setQueries} />
     <WebsiteSection queries={queries} />
     <PhrasesSection />
-  </Grid>
+  </div>
   );
 };
 

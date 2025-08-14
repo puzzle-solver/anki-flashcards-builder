@@ -20,12 +20,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function WebsiteSection( {queries} ) {
   const [websites, setWebsites] = useState([])
+  const [selectedRows, setSelectedRows] = useState(new Set())
   // State for the pop-up
   const [anchorEl, setAnchorEl] = useState(null); // Element that anchors the pop-up
   const [openPopper, setOpenPopper] = useState(false); // Controls pop-up visibility
   const [popperContent, setPopperContent] = useState(''); // Content to display in pop-up
-
-  let selectedRows = new Set()
 
   function fetchWebsites() {
     const websites = [
@@ -36,19 +35,17 @@ export default function WebsiteSection( {queries} ) {
   }
 
   function updateSelectedRows(idx) {
+    const newSelectedRows = new Set(selectedRows);
     if (selectedRows.has(idx)) {
-      selectedRows.delete(idx);
+      newSelectedRows.delete(idx);
     }
     else {
-      selectedRows.add(idx);
+      newSelectedRows.add(idx);
     }
+    setSelectedRows(newSelectedRows)
   }
 
-  const deleteItem = (i) => {
-    setWebsites(websites.filter((query, index) => index !== i));
-  }
-
-  function DeleteSelectedRows() {
+  function deleteSelectedRows() {
     setWebsites(websites.filter((row => !selectedRows.has(row.id))));
     selectedRows.clear()
   }
@@ -85,7 +82,7 @@ export default function WebsiteSection( {queries} ) {
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell><IconButton><DeleteIcon onClick={() => DeleteSelectedRows()} /></IconButton></TableCell>
+                <TableCell><IconButton><DeleteIcon onClick={() => deleteSelectedRows()} /></IconButton></TableCell>
                 <TableCell align="left"><b>URL</b></TableCell>
                 <TableCell align="left"><b>Lookup</b></TableCell>
               </TableRow>
@@ -125,10 +122,8 @@ export default function WebsiteSection( {queries} ) {
               <Paper className="p-4 shadow-xl rounded-lg max-w-sm bg-white border border-gray-300"
                     sx={{ overflowY: 'auto' }} // Added for scrollability
               >
-                <Typography variant="body2" className="text-gray-800">
                   {/* Render HTML content using dangerouslySetInnerHTML */}
                   <div dangerouslySetInnerHTML={{ __html: popperContent }} />
-                </Typography>
               </Paper>
             </Fade>
           )}
