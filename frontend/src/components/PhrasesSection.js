@@ -1,25 +1,12 @@
 import { useState } from 'react';
 import {
-  TableContainer,
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
-  Paper,
   Button,
-  IconButton,
-  Checkbox,
-  Popper,
   Box,
-  Fade,
+  Card,
+  CardContent,
+  CardActions,
   Typography,
 } from '@mui/material'; 
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import CardActions from '@mui/material/CardActions';
 
 
 function Flashcard({phrase, translation, explanation, url}) {
