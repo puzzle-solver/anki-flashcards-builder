@@ -1,0 +1,42 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f9fafb; /* Light gray background */
+  color: #111827; /* Dark text color */
+  font-family: "Inter", sans-serif;
+}
+
+/* Media query for medium screens and above (desktop layout) */
+@media (min-width: 768px) {
+  .app-container {
+    flex-direction: row;
+  }
+}
+
+/* Styling for each section */
+.section {
+  flex: 1;
+  background-color: #ffffff; /* White background */
+  padding: 1.5rem; /* p-6 */
+  border-bottom: 1px solid #e5e7eb;
+  border-left: 1px solid #e5e7eb; /* md:border-x */
+  border-right: 1px solid #e5e7eb;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+}
+
+/* Common component styles */
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.subtitle {
+  color: #6b7280;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
