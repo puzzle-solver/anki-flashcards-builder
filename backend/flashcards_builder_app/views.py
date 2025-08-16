@@ -5,6 +5,7 @@ from asgiref.sync import async_to_sync
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from drf_spectacular.utils import extend_schema
 
 from flashcards_builder.phrase_creator import (
     create_queries,
@@ -24,8 +25,15 @@ class QueryView(viewsets.ModelViewSet):
     filterset_fields = ["keyword"]
 
 
+@extend_schema(
+    request=QueryGenerateInputSerializer,
+    responses={201: QuerySerializer(many=True)},
+)
 @api_view(['POST'])
 async def create_queries_from_keywords(request):
+    """
+    Given a list of keywords, generates a set of queries for each of them.
+    """
     serializer = QueryGenerateInputSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
     keywords = serializer.data["keywords"]
@@ -50,8 +58,15 @@ class WebsiteView(viewsets.ModelViewSet):
     filterset_fields = ["query"]
 
 
+@extend_schema(
+    request=WebsiteGenerateInputSerializer,
+    responses={201: WebsiteSerializer(many=True)},
+)
 @api_view(['POST'])
 async def create_websites_from_queries(request):
+    """
+    Given a list of queries, browses Internet to extract matching websites (googlesearch)
+    """
     serializer = WebsiteGenerateInputSerializer(request.data)
     serializer.is_valid(raise_exception=True)
     keywords = serializer.data["keywords"]
@@ -76,9 +91,15 @@ class FlashcardView(viewsets.ModelViewSet):
     queryset = Flashcard.objects.all()
     serializer_class = FlashcardSerializer
 
-
+@extend_schema(
+        request=FlashcardGenerateInputSerializer,
+        responses={201: FlashcardSerializer(many=True)},
+)
 @api_view(['POST'])
 async def create_flashcards_from_websites(request):
+    """
+    Given a list of websites, generates a list of flashcards from each of them.
+    """
     serializer = FlashcardGenerateInputSerializer(request.data)
     serializer.is_valid(raise_exception=True)
     keywords = serializer.data["keywords"]

@@ -18,6 +18,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,
+)
 
 from flashcards_builder_app.views import (
     FlashcardView,
@@ -40,4 +45,7 @@ urlpatterns = [
     path("websites/generate", create_websites_from_queries),
     path("flashcards/generate", create_flashcards_from_websites),
     path("", include(router.urls)),
+    path("docs", SpectacularAPIView.as_view(), name="schema"),
+    path( "swagger", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger"),
+    path( "redoc", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
 ]

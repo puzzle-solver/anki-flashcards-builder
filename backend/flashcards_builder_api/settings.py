@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "flashcards_builder_app",
     "rest_framework",
     "django_filters",
+    "drf_spectacular",
 ]
 
 MIDDLEWARE = [
@@ -125,22 +126,16 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
-    "formatters": {
-        "verbose": {
-            "format": "%(asctime)s - %(levelname)s - %(message)s"
-        }
-    },
+    "formatters": {"verbose": {"format": "%(asctime)s - %(levelname)s - %(message)s"}},
     "handlers": {
-        "console": {
-            "class": "logging.StreamHandler",
-            "formatter": "verbose"
-        },
+        "console": {"class": "logging.StreamHandler", "formatter": "verbose"},
     },
     "root": {
         "handlers": ["console"],
@@ -150,4 +145,10 @@ LOGGING = {
         "handlers": ["console"],
         "level": "INFO",
     },
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Flashcards Builder API",
+    "DESCRIPTION": "Tool to generate flashcards based on selected topics found on the web.",
+    "SERVE_INCLUDE_SCHEMA": False,
 }

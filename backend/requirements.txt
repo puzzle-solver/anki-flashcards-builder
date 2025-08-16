@@ -5,8 +5,9 @@ beautifulsoup4
 tiktoken
 
 django
-django_filter
-rest_framework
+django-filter
+djangorestframework
+drf-spectacular
 
 pytest
 pytest-asyncio
