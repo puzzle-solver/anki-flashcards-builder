@@ -19,7 +19,14 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
-from flashcards_builder_app.views import FlashcardView, QueryView, WebsiteView
+from flashcards_builder_app.views import (
+    FlashcardView,
+    QueryView,
+    WebsiteView,
+    create_queries_from_keywords,
+    create_websites_from_queries,
+    create_flashcards_from_websites,
+)
 
 
 router = DefaultRouter(trailing_slash=False)
@@ -29,5 +36,8 @@ router.register("flashcards", FlashcardView, basename="flashcards")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("queries/generate", create_queries_from_keywords),
+    path("websites/generate", create_websites_from_queries),
+    path("flashcards/generate", create_flashcards_from_websites),
     path("", include(router.urls)),
 ]

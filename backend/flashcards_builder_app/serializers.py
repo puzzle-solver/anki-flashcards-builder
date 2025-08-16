@@ -23,14 +23,14 @@ class WebsiteSerializer(serializers.ModelSerializer):
 
 # Serializers for some requests view inputs
 
-class QueryViewInputSerializer(serializers.Serializer):
+class QueryGenerateInputSerializer(serializers.Serializer):
     keywords = serializers.ListField(
         child=serializers.CharField(max_length=255),
         min_length=1,
     )
 
 
-class WebsiteViewInputSerializer(serializers.Serializer):
+class WebsiteGenerateInputSerializer(serializers.Serializer):
     keywords = serializers.ListField(
         child=serializers.CharField(max_length=255),
         min_length=1,
@@ -38,7 +38,7 @@ class WebsiteViewInputSerializer(serializers.Serializer):
     num_websites = serializers.IntegerField(min_value=1, default=10)
 
 
-class FlashcardViewInputSerializer(serializers.Serializer):
+class FlashcardGenerateInputSerializer(serializers.Serializer):
     keywords = serializers.ListField(
         child=serializers.CharField(max_length=255),
         min_length=1,
